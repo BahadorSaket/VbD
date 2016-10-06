@@ -1,0 +1,1009 @@
+<html>
+  <head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="static/d3.min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script type="text/javascript" src="static/x_scale_generator.js"></script>
+    <script type="text/javascript" src="static/y_scale_generator.js"></script>
+    <script type="text/javascript" src="static/d3-context-menu.js"></script>
+    <script type="text/javascript" src="static/axis_recommendation.js"></script>
+	<script type="text/javascript" src="static/draw_bar.js"></script>
+	<script type="text/javascript" src="static/recommender.js"></script>
+    <script type="text/javascript" src="static/generateRecom.js"></script>
+	<script type="text/javascript" src="static/Update_ScatterPlot_x.js"></script>
+	<script type="text/javascript" src="static/Update_ScatterPlot_y.js"></script>
+	<script type="text/javascript" src="static/Update_ScatterPlot_xy.js"></script>
+    <script type="text/javascript" src="static/accept_scatter_x_recom.js"></script>
+    <script type="text/javascript" src="static/accept_scatter_y_recom.js"></script>
+    <script type="text/javascript" src="static/accept_scatter_recom.js"></script>
+    <script type="text/javascript" src="static/accept_bar_recom.js"></script>
+    <script type="text/javascript" src="static/drag.js"></script>
+	<script type="text/javascript" src="static/bar_sorting.js"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<link type="text/css" rel="stylesheet" href="static/main.css">
+	<link type="text/css" rel="stylesheet" href="static/recom.css">
+	<link type="text/css" rel="stylesheet" href="static/d3-context-menu.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="static/check_collision.js"></script>
+  </head>
+  <body class="halvetica">
+     <div id="navbar">
+       <form class="form">
+
+              <input id="query" value= " search ..." type="query" onKeyPress='if (event.which==13) return false;' />
+              <input id="search" onclick='Query()' style="margin-left:10px;" type='button' value="Search">
+              <input id="clear" onclick='Clean()' style="margin-left:4px;" type='button' value="Clear">
+
+       </form>
+
+     </div>
+     <div id="sides">
+      <!-- Main Plot -->
+	  <div class="div1"></div>
+	  <!-- Attributes -->
+	  <div class="dummy-margin"></div>
+	  <div class="div2"></div>
+	 <!-- <div class="div3"></div> -->
+	  <!-- Recomm bar -->
+	  <div class="div4 halvetica">
+	  	<i class="fa fa-caret-left scroll-left"></i>
+	  	<i class="fa fa-caret-right scroll-right"></i>
+
+	  	<div class="inner-div4"></div>
+	  </div>
+	 </div>
+   <script type="text/javascript">
+
+
+    function Clean() {
+        console.log("here");
+        $('#query').val(" search ...");
+
+    }
+
+	function Query() {
+	    var querybox = d3.select('#query');
+	    var text = querybox[0][0].value;
+
+        d3.selectAll(".state").each(function(d,i)
+        {
+        	id_Q = d3.select(this).attr("id").split("_")[1];
+
+        	text1 = text.toLowerCase();
+        	text1= text1.trim();
+        	text2 = Name[Number(id_Q)].toLowerCase();
+        	text2= text2.trim();
+
+        	if(text1 == text2 || text2.indexOf(text1) > -1)
+        	{
+
+	             d3.select(this).classed("lastDragged", true);
+			     setTimeout(function(item){
+						 d3.select(item).classed("lastDragged", false);
+			     }, Timeout, this);
+			     return true;
+        	}
+        })
+	}
+
+	function query_submit() {
+	    Query();
+	    return false;
+	}
+
+
+
+	var colorContextMenu = [
+		{
+			title: 'Red',
+			action: function(elm, d, i) {
+				d3.select(elm).style("fill","red");
+				transformed_data[i]['Color']="red";
+                axisStat = false;
+				output = color_recomm(data, transformed_data);
+				clusters = [];
+				output.forEach(function(d,i) {
+					clusters[i] = d.attr;
+				});
+
+			   // Recommendation= generateRecom(bar_orientation, rec_X, rec_Y, Recommendation,xAxis_value,sorting,clusters);
+			//	original_data = transformed_data.slice(0);
+				show_car_details(i,clusters,size_clusters,output);
+				//cal_Recom_weight(Recommendation);
+			}
+		},
+		{
+			title: 'Blue',
+			action: function(elm, d, i) {
+				d3.select(elm).style("fill","blue");
+				transformed_data[i]['Color']="blue";
+				//console.log(d.id + " changed to blue");
+				axisStat = false;
+				output = color_recomm(data, transformed_data);
+				clusters = [];
+				output.forEach(function(d,i) {
+					clusters[i] = d.attr;
+				});
+
+			    // clusters=[0, 4, 10, 5, 12];
+			   // Recommendation= generateRecom(bar_orientation, rec_X, rec_Y, Recommendation,xAxis_value,sorting,clusters);
+				//original_data = transformed_data.slice(0);
+				show_car_details(i,clusters,size_clusters,output);
+				//cal_Recom_weight(Recommendation);
+			}
+		}
+	];
+
+
+	var password = "please";
+    //var x = prompt("Enter in the password "," ");
+   // if (x.toLowerCase() == password) {
+
+	var data_set;
+	var pca_axis_ranking ;
+	var radius=7;
+	var transformed_data=[];
+	var svg, container;
+	var width= (84/100)* window.innerWidth;
+	var height=(70/100)* window.innerHeight;
+	var datatosend=[];
+	var pca_x_coordination = [];
+	var pca_y_coordination = [];
+    datapoint_size = [];
+	var padding=100;
+	Color_mapped ="None";
+	Size_mapped ="None";
+	var right_padding=100;
+	var top_padding=50;
+	var VisState="Scatter";
+	var xAxis_value;
+	var clusters=[];
+	var size_clusters=[];
+	var output=[];
+	axisStat=true;
+	var previous_index=0;
+    var Timeout= 1000000;
+    var color_bar_Recom =0;
+	//dataset
+
+
+	var data_set_attributes =  ["Small","Sports Car","SUV","Wagon","Mini Van","AWD","RWD","Retail Price","Dealer Cost",
+                                "Engine Size","Cyl","HP","City MPG","Hwy MPG","Weight","Wheel Base",
+								"Len","Width"];
+   /*
+	var data_set_attributes =  ["Release Date","Max Resolution","Low Resolution","Effective Pixel","Zoom Wide","Zoom Tele","Normal Focus","Macro Focus","Sotrage", "Weight", "Dimensions", "Price"];
+   */
+	// Recommendation related variables
+	var Recommendation = []; // empty array
+	 Recommendation.push({value: 0, weight: 0, id:0, AddPercentage:0});
+    var recomID=0;
+	var recom_index=0;
+	var XExtentValue,YExtentValue,csv;
+	ClickedValueEffect = 0.1;
+
+
+	var recomCounter = {x: 0, y: 0};
+
+	var drag_Status = false;
+	//drawing variables
+    var X, Y, xScale, yScale;
+	var circle_lastchanges=[{x: 0, y:0, r:0, color:0, id:0}];
+
+	initialize_Data();  // define a random array
+    SvgCreator();       // Create a SVG
+	initialize_circle(); //
+	var svg;
+
+	var categorical = determ_var(mydata); // make a list of categorical attributes
+
+
+	function initialize_Data() // receive the car dataset from server
+	{
+
+	    Name= runPyScript(" ",1);
+		Name = JSON.parse(Name);
+
+
+	    mydata= runPyScript(" ",0);
+		mydata = JSON.parse(mydata);
+
+		data= runPyScript(" ",0);
+		data = JSON.parse(data);
+
+	}
+
+	function SvgCreator(){ // create a svg that would be contianer of our visualization
+		svg= d3.select("body").select(".div1").append("svg")
+                                .attr("width", width)
+                                .attr("height",height);
+
+
+
+	    container = svg.append("g");
+	}
+
+    function get_recom_index(recom, id)
+	{
+	  var x;
+	  for(var i=0; i<recom.length; i++)
+	  {
+	      if(recom[i].id==id)
+		   {
+		     x= i;
+		   }
+	  }
+	  return x;
+	}
+
+
+
+function ShowRecommendation(recom, id)
+	{
+
+	     switch_case = id.split(',');
+	    // console.log(switch_case[0])
+         if(parseInt(switch_case[0])>=0 && parseInt(switch_case[0])<=data_set_attributes.length)
+         {
+              recomID ++;
+				 if(switch_case[1]=="x")
+				 {
+					 recomCounter.x++;
+
+					 if(recomCounter.x<=5)
+					 {
+					 //	console.log("i am here");
+					  //  turn_on_notick("x");
+						xAxis.ticks(0);
+					    xAxis_value = data_set_attributes[Number(switch_case[0])];
+						addDynRecom(recomID, " " + xAxis_value, {x:(width-130),y:(height-padding +recomCounter.x*20),width:150,height:20, type:"recomX"}, function() {
+							//console.log(VisState);
+							if(VisState=="Scatter")
+						    {
+						       drag_Status =true;
+							   accept_scatter_x_recom(recom, id)
+							}
+							else if(VisState == "bar")
+							{
+								RemoveGrouping();
+								drag_Status =true;
+                                accept_bar_recom(id);
+							}
+
+						 },
+						 function() {
+                            recomCounter.x=0;
+							if(d3.selectAll(".x").classed("axisNoTick") && check_axesRecom_availability("x") ==false)
+							{
+								  turn_off_axis("x");
+							}
+						 });
+
+					 }
+				 }
+
+
+				 else if(switch_case[1]=="y" && VisState=="Scatter")
+				 {
+				     recomCounter.y++;
+					 if(recomCounter.y <=5)
+					 {
+					   // turn_on_notick("y");
+						yAxis.ticks(0);
+					    yAxis_value = data_set_attributes[Number(switch_case[0])];
+						addDynRecom(recomID, " " +yAxis_value,{x:(padding-80),y:(5 + (recomCounter.y*20)),width:150,height:20,type:"recomY"}, function() {
+                              RemoveGrouping();
+						      accept_scatter_y_recom(recom, id)
+						 },
+						 function() {
+                            recomCounter.y=0;
+							if(d3.selectAll(".y").classed("axisNoTick") && check_axesRecom_availability("y") ==false)
+							{
+								 turn_off_axis("y");
+							}
+						 });
+
+					 }
+				}
+
+
+			    else if( switch_case[1]=="vertical" && VisState == "Scatter")
+			    {
+			        recomID ++;
+				    bardata=[];
+					for(var i=0; i<data[0].length; i++)
+					{
+						bardata.push(data[Number(switch_case[0])][i]);
+					}
+					xAxis_value = data_set_attributes[Number(switch_case[0])];
+					id_recom = get_recom_index(recom, id);
+					addRecom_bar(recom, id_recom, recomID,bardata, "Stack vertically based on ",xAxis_value, VisState, function() {
+						RemoveGrouping();
+						bar_order = "normal";
+						VisState="bar";
+						drag_Status =true;
+                        accept_bar_recom(id);
+					},
+					function() {
+
+						id_recom = get_recom_index(recom, id);
+						//console.log(id_recom);
+						recom[id_recom].weight=0;
+				    });
+
+                 }
+
+                else if((parseInt(switch_case[1])<= data_set_attributes.length) && VisState == "Scatterbar")
+			    {
+
+			        recomID ++;
+	                xAxis_value = data_set_attributes[Number(switch_case[0])];
+					yAxis_value = data_set_attributes[Number(switch_case[1])];
+
+					demo_scatter_data = [];
+					for(var i=0; i<data[0].length; i++) {
+						demo_scatter_data.push(
+							         {x: (data[Number(switch_case[0])][i]) ,
+							          y: (data[Number(switch_case[1])][i])}
+						);
+					}
+					id_recom = get_recom_index(recom, id);
+					addRecom_scatter(recom, id_recom,recomID,demo_scatter_data, "Scatterplot based on ",xAxis_value, yAxis_value, VisState, function() {
+						    RemoveGrouping();
+                            accept_scatter_recom(recom, id);
+					},
+					function() {
+
+						id_recom = get_recom_index(recom, id);
+					    Recommendation[id].AddPercentage = 0;
+						recom[id].weight=0;
+				    });
+
+
+                 }
+
+                else if(switch_case[2]=="sorting")
+                 {
+                        bar_order = switch_case[3];
+		                xAxis_value = switch_case[1];
+		         	    addDynRecom(recomID, "Sort barchart "+ bar_order+" based on "+ xAxis_value, {x:(width/2),y:(height-padding +30),width:300,height:20,type:"sorting"}, function() {
+
+				 			    RemoveGrouping();
+								VisState == "Scatterbar";
+								drag_Status =true;
+		                        accept_bar_recom(id);
+		                },
+					    function() {
+		                    recomCounter.x=0;
+						    if(d3.selectAll(".x").classed("axisNoTick") && check_axesRecom_availability("x") ==false)
+						    {
+								turn_off_axis("x");
+						    }
+						});
+                 }
+         }
+
+	}
+
+
+	function pca_data_transformation(transformed_data)
+	{
+	    for (var i=0; i<transformed_data.length; ++i) {
+            pca_x_coordination[i]=transformed_data[i].x;
+			pca_y_coordination[i]=transformed_data[i].y;
+			// console.log(pca_x_coordination[i] +"--"+pca_y_coordination[i] );
+        }
+	}
+
+
+	function size_fake_data(fake_data,id)
+	{
+       var temporary_data=[];
+       var barData = {};
+	   for(var i=0; i<data[0].length; i++)
+	   {
+	        temporary_data.push(data[Number(id)][i]);
+	   }
+
+       var ValueExtent=[];
+
+	   for(var index in temporary_data){
+			var curObj = temporary_data[index].toString();
+			if(Object.keys(barData).indexOf(curObj)==-1){
+				barData[curObj] = 1;
+			}else{
+				barData[curObj]++;
+			}
+		}
+        for(var index in barData){
+             ValueExtent.push(barData[index]);
+		}
+
+	    XExtentValue = Object.keys(barData);
+        min_val = d3.min(XExtentValue);
+        max_val = d3.max(XExtentValue);
+
+        sizeScale  = d3.scale.ordinal().domain(XExtentValue).rangeRoundBands([7,36]);
+
+        fake_data.forEach(function(d,j) {
+
+               fake_data[j].Radius = sizeScale(data[Number(id)][j]);
+              // console.log(fake_data[j].Radius);
+        });
+
+        return fake_data;
+
+	}
+	   svg2= d3.select("body").select(".div2").append("svg")
+                                .attr("width", $(".div2").width())
+                                .attr("height",700);
+
+    function update_Color_mapping(id)
+    {
+       $('.Colormapping').empty();
+       var Color_number = {};
+
+       map = d3.nest().key(function(d) { return d.Color; }).entries(transformed_data);
+
+      // console.log(map);
+       //d3.select(".div2").select("svg").remove();
+
+
+      	svg2.append("text")
+		      .attr("x", function(){
+		      	    return 10;
+		      	;})
+		      .attr("y", function(){
+		      	    return ($(".svg2").height()+30)
+		      	;})
+		     .style("text-anchor", "left")
+              .style("font-size", "9px")
+              .style('fill', 'white')
+		      .attr("class","Colormapping")
+		      .style("font-weight","bold")
+		      .attr("dy", ".35em")
+		      .text(function() { return "Color is mapped to "+Color_mapped });
+
+      for(i=0;i<map.length;i++)
+       {
+       svg2.append("circle")
+	          .style("fill", function(){ var s = (map[i].key); return s.toString() ;})
+		      .attr("r", 5)
+		      .attr("class","Colormapping")
+		      .attr("cx", function(){
+		      	    return  (i*40)+(10);
+		       ;})
+		      .attr("cy", function(){return  $(".svg2").height()+50;})
+
+	   svg2.append("text")
+		      .attr("x", function(){
+		      	    return (i*40) + 20;
+		      	;})
+		      .attr("y", function(){
+		      	    return ($(".svg2").height()+50)
+		      	;})
+		     .style("text-anchor", "left")
+              .style("font-size", "9px")
+              .style('fill', 'white')
+		      .attr("class","Colormapping")
+		      .style("font-weight","bold")
+		      .attr("dy", ".35em")
+		      .text(function() { return data[Number(id)][Number(map[i].values[0].dataId.split("_")[1])]; });
+
+       }
+
+    }
+
+    function update_Size_mapping()
+    {
+       $('.Sizemapping').empty();
+    	svg2.append("text")
+		      .attr("x", function(){
+		      	    return 10;
+		      	;})
+		      .attr("y", function(){
+		      	    return ($(".svg2").height()+80)
+		      	;})
+		     .style("text-anchor", "left")
+              .style("font-size", "9px")
+              .style('fill', 'white')
+		      .attr("class","Sizemapping")
+		      .style("font-weight","bold")
+		      .attr("dy", ".35em")
+		      .text(function() { return "Size is mapped to "+ Size_mapped });
+       svg2.append("circle")
+	          .style("fill", "white")
+		      .attr("r", 3)
+		      .attr("class","Sizemapping")
+		      .attr("cx", function(){
+		      	    return 10;
+		       ;})
+		      .attr("cy", function(){return  $(".svg2").height()+100;})
+
+	    svg2.append("text")
+		    .attr("x", 10+7)
+		    .attr("y",  function(){return  $(".svg2").height()+100;})
+		    .style("text-anchor", "left")
+            .style("font-size", "9px")
+            .style('fill', 'white')
+		    .attr("class","Sizemapping")
+			.style("font-weight","bold")
+		    .attr("dy", ".35em")
+		    .text(function(d) { return min_val; });
+
+		  svg2.append("circle")
+	          .style("fill", "white")
+		      .attr("r", 8)
+		      .attr("class","Sizemapping")
+		      .attr("cx", function(){
+		      	    return  60;
+		       ;})
+		      .attr("cy", function(){return  $(".svg2").height()+100;})
+
+	 	 svg2.append("text")
+		    .attr("x", 60+11)
+		    .attr("y",  function(){return  $(".svg2").height()+100;})
+		    .style("text-anchor", "left")
+            .style("font-size", "9px")
+            .style('fill', 'white')
+		    .attr("class","Sizemapping")
+			.style("font-weight","bold")
+		    .attr("dy", ".35em")
+		    .text(function(d) { return max_val; });
+
+    }
+
+	function color_reaction(str,x, id, output)
+	{
+
+	   if(str=="hover")
+	   {
+
+	   	 fake_data = d3.range(data[0].length).map(function(d,i) {
+		   return {
+			 x: transformed_data[i].x,
+			 y: transformed_data[i].y,
+			 dataId: "id_"+i,
+			 Color: "#85E087",
+		     Radius:transformed_data[i].Radius,
+		   }
+		 });
+
+	   	 if(clusters.indexOf(Number(id)) != -1 && size_clusters.indexOf(Number(id)) != -1)
+	   	 {
+
+            fake_data = coloring_preview(fake_data, id, output);
+            fake_data = size_fake_data(fake_data, id);
+            d3.selectAll(".state").each( function(d, i){
+			 	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+			                  d3.select(this).style("fill", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Color;
+			                   });
+			                  d3.select(this).attr("r", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Radius;
+			                   });
+
+			 });
+            d3.selectAll(".handler").each( function(d, i){
+             	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+             	              cx= Number(d3.select("#"+id_preview).attr("cx"));
+			                  d3.select(this).attr("cx", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Radius+cx;
+			                   });
+            });
+	   	 }
+
+	   	 else if(clusters.indexOf(Number(id)) != -1)
+         {
+	         fake_data = coloring_preview(fake_data, id, output);
+			 d3.selectAll(".state").each( function(d, i){
+			 	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+			                  d3.select(this).style("fill", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Color;
+			                   });
+
+			 });
+		 }
+		 else if(size_clusters.indexOf(Number(id)) != -1)
+		 {
+            // console.log("i am here~~");
+             fake_data = size_fake_data(fake_data, id);
+            // console.log(fake_data)
+             d3.selectAll(".state").each( function(d, i){
+			 	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+			 	               d3.select(this).attr("r", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Radius;
+			                   });
+
+			 });
+
+             d3.selectAll(".handler").each( function(d, i){
+             	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+             	              cx= Number(d3.select("#"+id_preview).attr("cx"));
+			                  d3.select(this).attr("cx", function(g,j){
+	                               return fake_data[getIndexBasedOnId(id_preview)].Radius+cx;
+			                   });
+
+             });
+
+		 }
+
+	   }
+	   else if(str == "ho")
+	   {
+	        d3.selectAll(".state").each( function(d, i){
+		 	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+		                  d3.select(this).style("fill", function(g,j){
+                              return  transformed_data[getIndexBasedOnId(id_preview)].Color;
+		                  });
+		                  d3.select(this).attr("r", function(g,j){
+                              return  transformed_data[getIndexBasedOnId(id_preview)].Radius;
+		                  });
+		    });
+
+             d3.selectAll(".handler").each( function(d, i){
+             	              id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
+             	               cx= Number(d3.select("#"+id_preview).attr("cx"));
+			                  d3.select(this).attr("cx", function(g,j){
+	                               return transformed_data[getIndexBasedOnId(id_preview)].Radius+cx;
+			                   });
+
+             });
+
+		 //cal_Recom_weight(Recommendation);
+	   }
+	   else if(str == "clicked")
+    	{
+        //  turn_off_axis("x");
+         //turn_off_axis("y");
+         transformed_data=fake_data.slice(0);
+         if(clusters.indexOf(Number(id)) != -1 && size_clusters.indexOf(Number(id)) != -1)
+         {
+             Color_mapped = data_set_attributes[id];
+             Size_mapped =  data_set_attributes[id];
+             update_Color_mapping(id)
+             update_Size_mapping()
+         }
+         else if(clusters.indexOf(Number(id)) != -1)
+         {
+             Color_mapped = data_set_attributes[id];
+             update_Color_mapping(id)
+         }
+         else if(size_clusters.indexOf(Number(id)) != -1)
+         {
+			 Size_mapped =  data_set_attributes[id];
+			 update_Size_mapping()
+         }
+
+         clusters=[];
+         size_clusters=[];
+         show_car_details(i,[],[],[]);
+        // cal_Recom_weight(Recommendation);
+         // cal_Recom_weight(Recommendation);
+    	}
+	}
+
+
+	function show_car_details(i,clusters,size_clusters,output)
+	{
+	  //[0,1,2]
+
+	  $(".div2 > p" ).remove();
+
+
+	  for(j=0;j<data_set_attributes.length;	j=j+1)
+	  {
+		  $( '#attrID_'+j ).off("mouseenter mouseleave");
+		  $( '#attrID_'+j ).off( "click" );
+
+		 if (clusters.indexOf(j) == -1 && size_clusters.indexOf(j) == -1) {
+
+			$(".div2").prepend('<p class="attributes_container attributes_font" id="attrID_'+j+'"> <b>'+data_set_attributes[j]+':</b> '+data[j][i]+'</p>');
+
+		 } else{
+
+		    id = 'attrID_'+j;
+			$(".div2").prepend('<p class="attributes_container attributes_font" id="'+id+'"> <b>'+data_set_attributes[j]+':</b> '+data[j][i]+'</p>');
+		    var fontSize = $("#"+id).css('font-size');
+
+		 	if(clusters.indexOf(j) != -1 && size_clusters.indexOf(j) != -1)
+		 	{
+				color_icon = '<i class="fa fa-paint-brush color-icon"></i>';
+				$("#"+id).append(color_icon);
+				size_icon = '<i class="fa fa-expand color-icon"></i>';
+				$("#"+id).append(size_icon);
+		 	}
+		 	else if(clusters.indexOf(j) != -1)
+		 	{
+                color_icon = '<i class="fa fa-paint-brush color-icon"></i>';
+				$("#"+id).append(color_icon);
+		 	}
+		 	else if(size_clusters.indexOf(j) != -1)
+		 	{
+		 		size_icon = '<i class="fa fa-expand color-icon"></i>';
+				$("#"+id).append(size_icon);
+		 	}
+
+
+
+
+		     // Bing hover event
+			$( '#attrID_'+j ).hover(
+			    function() {
+
+					id = $(this).attr('id').split("_")[1];
+					$(this).css("background-color", "#626C88");
+					color_reaction("hover", j, id, output);
+					// console.log(id + " is hovered")
+
+    			}, function() {
+	                color_reaction("ho",j);
+
+					$(this).css("background-color", "transparent");
+					// console.log(id + " is un-hovered")
+
+        		}
+			);
+
+
+		    // Bind click event
+			$( '#attrID_'+j ).click(
+				  function() {
+
+				  //  $('.div2').empty();
+					id = $(this).attr('id').split("_")[1];
+					 color_bar_Recom =id;
+					color_reaction("clicked", j, id, output);
+				  }
+			);
+
+		}
+	  }
+
+	  $(".div2").prepend('<p class="dataset-datapoint attributes_font"> <b>'+Name[i]+'</b> <p>');
+	  $(".div2").prepend('<p class="dataset-meta attributes_font"> <i class="fa fa-list"></i> ' +data_set_attributes.length+' data attributes<p>');
+	  $(".div2").prepend('<p class="dataset-meta attributes_font"> <i class="fa fa-circle"></i> ' + data[0].length +' data points <p>');
+	  $(".div2").prepend('<p class="dataset-meta attributes_font"> <i class="fa fa-table"></i> Cars.csv <p>');
+
+	}
+
+	function Scale_MyData_x(transformed_data)
+	{
+	     pca_data_transformation(transformed_data);
+	     X = [Math.min.apply(Math,pca_x_coordination),Math.max.apply(Math,pca_x_coordination)];
+		 xScale = XScaleGenerator("linear",0,width , X,padding,right_padding);
+	     for (var i=0; i<transformed_data.length; ++i) {
+            transformed_data[i].x = xScale(transformed_data[i].x);
+        }
+	}
+
+
+	function Scale_MyData_y(transformed_data)
+	{
+		 pca_data_transformation(transformed_data);
+	  	 Y = [Math.min.apply(Math,pca_y_coordination),Math.max.apply(Math,pca_y_coordination)];
+		 yScale = YScaleGenerator("linear",0,height, Y,top_padding,padding);
+		 for (var i=0; i<transformed_data.length; ++i) {
+			transformed_data[i].y = yScale(transformed_data[i].y);
+         }
+	}
+
+
+
+	function turn_on_notick(val)
+	{
+	    d3.selectAll("."+val).classed("axisHide",false);
+		d3.selectAll("."+val).classed("axisShow",false);
+		d3.selectAll("."+val).classed("axisNoTick",true);
+	}
+
+	function turn_on_axis(val, axes_value)
+	{
+	    d3.selectAll("."+val).classed("axisHide",false);
+		d3.selectAll("."+val).classed("axisNoTick",false);
+		d3.selectAll("."+val).classed("axisShow",true);
+		svg.selectAll("."+val+"LabelHide").classed(val+"LabelShow", true);
+		svg.selectAll("."+val+"LabelHide").classed(val+"LabelHide", false);
+		svg.selectAll("."+val+"LabelShow").text(axes_value);
+	}
+
+	function turn_off_axis(val)
+	{
+        d3.selectAll("."+val).classed("axisHide",true);
+		d3.selectAll("."+val).classed("axisNoTick",false);
+		d3.selectAll("."+val).classed("axisShow",false);
+	    svg.selectAll("."+val+"LabelShow").classed(val+"LabelHide", true);
+		svg.selectAll("."+val+"LabelShow").classed(val+"LabelShow", false);
+	}
+	function check_axesRecom_availability(x)
+	{
+	    var checker= false;
+	    for(var i=0;i<Recommendation.length;i++)
+		{
+		    if(Recommendation[i].id!=0)
+			{
+			   str = Recommendation[i].id;
+		       var val = str.split(',');
+		       if(val[1] ==x )
+			   {
+			      checker = true;
+			   }
+			}
+
+		}
+		return checker;
+	}
+
+
+    function define_vis_status_afterDragg()
+    {
+    	 d3.selectAll(".state").each( function(d, i)
+    	 {
+    	 	if(d3.select(this).classed("notDragged"))
+    	 	{
+    	 		if(VisState == "bar")
+    	 		{
+    	 			VisState = "Scatterbar";
+    	 		}
+    	 	}
+    	 });
+
+    }
+
+
+
+/*************************************************************************************************************************************************/
+/**************************************************************  This is the Main Function *******************************************************/
+/*************************************************************************************************************************************************/
+	function initialize_circle()
+	{
+
+
+       // console.log(data)
+
+		/* transformed_data contains information (x, y, color, id and size) of the main circles ***************************************************/
+	    transformed_data= d3.range(data[0].length).map(function(d,i) {
+		   return {
+			 x: Math.floor((Math.random() * width ) + padding+radius),
+			 y: Math.floor((Math.random() * height) + 0),
+			 dataId: "id_"+i,
+			 Color: "#85E087",
+			 Radius:radius,
+		   }
+		 });
+
+
+		/* fake_data is exactly same as the transformed_data. It is a temporary values for the Color and Size recommendations. */
+
+   fake_data= d3.range(data[0].length).map(function(d,i) {
+		   return {
+			 x: Math.floor((Math.random() * width ) + padding+radius),
+			 y: Math.floor((Math.random() * height) + 0),
+			 dataId: "id_"+i,
+			 Color: "#85E087",
+		     Radius:radius,
+		   }
+		 });
+       // console.log(t)
+		for (var i=0; i<transformed_data.length; ++i) {
+            pca_x_coordination.push(transformed_data[i].x);
+			pca_y_coordination.push(transformed_data[i].y);
+			datapoint_size.push(radius);
+        }
+
+	    Scale_MyData_x(transformed_data);
+	    Scale_MyData_y(transformed_data);
+
+
+		xAxis = d3.svg.axis()
+			          .scale(xScale)
+					  .orient("bottom");
+
+        yAxis = d3.svg.axis()
+		              .scale(yScale)
+					  .orient("left");
+
+
+
+       /* Create circles and handlers for each circle ************************************/
+
+        var gStates = svg.selectAll("circle").data(transformed_data);
+
+		gStates.enter().append("circle")
+					 .attr("class","state")
+					 .style("fill", function(d,i){return d.Color;})
+					 .style("opacity", function(d,i){return 0.5;})
+					 .attr("id", function(d,i){return d.dataId;})
+					 .attr("cx", function(d,i){return d.x;})
+					 .attr("cy", function(d,i){return d.y;})
+					 .attr("r", function(d,i){return d.Radius;})
+					 .call(drag)
+					 .on('click',function(d){
+
+
+		                d3.select(this).classed("lastDragged", true);
+
+		                setTimeout(function(item){
+						      d3.select(item).classed("lastDragged", false);
+					    }, Timeout, this);
+
+					 })
+					 .on("mouseover", function(d){ d3.select(this).style('cursor','pointer');})
+	                 .on("mouseleave", function(d){ d3.select(this).style('cursor','auto');})
+					 .on('mouseenter', function(d,i) {
+                            /* hovering on a circle on the main view highlights corresponding circle in the Recom View */
+                            //console.log(transformed_data[i]['dataId']);
+
+
+
+ id_h = Number(d3.select(this).attr("id").split("_")[1]);
+                            d3.select(".inner-div4").selectAll("circle").classed("recomSelect",false);
+					        d3.select(".inner-div4").selectAll("#"+transformed_data[i]['dataId']).classed("recomSelect",true);
+
+
+                            console.log(id_h)
+ 			                if(previous_index!=i) show_car_details(id_h,clusters,size_clusters,output);  //hovering on one circle refresh the details data
+ 			                previous_index = i;
+ 			          })
+					  .on('mouseleave', function(d,i) {
+					        d3.select(".inner-div4").selectAll("#"+transformed_data[i]['dataId']).classed("recomSelect",false);
+
+ 			          })
+					  .on("contextmenu",d3.contextMenu(colorContextMenu)); /* Right click on a circles calls a colorMenu */
+
+		 gStates.enter().append("circle")
+	                 .style("fill", "black")
+	                 .attr("class","handler")
+	                 .attr("id",function(d,i){ return "handler_"+ i;})
+	                 .attr("r", 1.5)
+	                 .attr("cx", function(d, i){return (d.x+ d.Radius);})
+	                 .attr("cy", function(d, i){return d.y;})
+	                 .call(drag)
+	                 .on("mouseover", function(d){ d3.select(this).style('cursor','crosshair');})
+	                 .on("mouseleave", function(d){ d3.select(this).style('cursor','auto');})
+
+        /*********************************************************************************/
+
+        show_car_details(0,[],[]);
+		svg.append("g")
+			   .attr("class", "x axisHide")
+			   .attr("transform","translate("+0+","+ (height-padding) + ")")
+			   .call(xAxis);
+
+		svg.append("text")
+			   .attr("class", "xLabelHide")
+			   .attr("text-anchor", "end")
+			   .attr("x", width-20)
+			   .attr("y", (height - padding))
+			   .text("");
+
+		svg.append("g")
+			   .attr("class", "y axisHide")
+			   .attr("transform", "translate("+(padding)+"," + (0) + ")")
+			   .call(yAxis);
+
+		svg.append("text")
+			   .attr("class", "yLabelHide")
+			   .attr("text-anchor", "end")
+			   .attr("x", padding)
+			   .attr("y", top_padding -10)
+			   .text("");
+	}
+
+
+    /*** Calls the Python Code ***********************************************************/
+	function runPyScript(input, count){
+		var jqXHR = $.ajax({
+			type: "POST",
+			url: "/home",
+			async: false,
+			data: { mydata: input, counter: count }
+		});
+
+		return jqXHR.responseText;
+	}
+	</script>
+
+  </body>
+</html>

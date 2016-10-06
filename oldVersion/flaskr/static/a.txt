@@ -1,0 +1,11 @@
+
+Vision is by far the most dominant and powerful channel which we sense the world. Vision alone provides more information that all the other senses combined. That is, representing the quantitative data in visual forms makes it easier for people to make sense and understand their data. 
+
+Today, as complexity and size of data sets expand, exploration and making sense of the data becomes harder than previous. Over the last decades, the visualization community has developed a wide range of data analysis methods and tools to allow users to explore and make sense of their data. However, the complex nature of many problems makes it indispensable to include human intelligence at an early stage in the data analysis process.
+
+
+What makes me so excited about Visual Analytics (VA) the powerfull combination of visual analytics methods with coupling through human interaction in order to understand and make sense of data. In other words, VA combines human ﬂexibility, creativity, and background knowledge with the processing capacities of today’s computers to gain insight into complex problems. Visual analytics tools enable the people to directly interact with data analysis capabilities of today's computer systems, allowing them to make informed decisions in a very complex situations.
+
+There are still different open questions in VA that are important and I am interested in answering them. Many visual analytic systems use complex statistical models which makes user interaction more difficult. How can we decrease the complexity of user's interactions with VA tools? How do we design VA tools whcih allow users to gain instight into complex problems of streaming data?   
+
+

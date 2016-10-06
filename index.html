@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VisDemo</title>
+
+
+
+
+    <!--Vendor CSS files-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/UI/UIStyle.css" rel="stylesheet">
+    <link href="css/Scatterplot/ScatterplotStyle.css" rel="stylesheet">
+    <link href="css/AdditionalWidgets/d3-context-menu.css" rel="stylesheet">
+
+    <!--JS files-->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/AdditionalWidgets/d3-context-menu.js"></script>
+    <script src="js/Scatterplot/Scatterplot.js"></script>
+    <script src="js/UI/showRecom.js"></script>
+    <script src="js/Scatterplot/Coloring/Scatter_ColorPicker.js"></script>
+    <script src="js/Scatterplot/Coloring/Scatter_ColorActivation.js"></script>
+    <script src="js/Scatterplot/Resizing/Scatter_ResizeActivation.js"></script>
+    <script src="js/Scatterplot/Resizing/Scatter_ResizeCircle.js"></script>
+    <script src="js/Scatterplot/Resizing/Scatter_ResizeActivation.js"></script>
+    <script src="js/Scatterplot/Drag/Scatter_DragCircle.js"></script>
+    <script src="js/Scatterplot/Drag/Scatter_DragActivation.js"></script>
+    <script src="js/StartingVisualization/startVis.js"></script>
+    <script src="js/clone.js"></script>
+    <script src="js/Recommendations/recomEngine.js"></script>
+    <script src="js/Recommendations/recomPresentation.js"></script>
+    <script src="js/Recommendations/recomProcessing.js"></script>
+    <script src="js/Recommendations/recomCalculation.js"></script>
+</head>
+<body>
+    <div id='topPanel'>
+        <p style="font-size:20px; color:white; vertical-align: middle; margin:10px;">VisDemo</p>
+    </div>
+    <div id='mainbody'>
+        <div class="col-md-2" id='leftPanel'>
+          <div id="div1" style="height:92%;">
+            <div id="detailPanel" class="subPanelsDetail"></div>
+            <div id="controlPanel" class="subPanels subControlPanel">
+                <div id="panelTitle">Select charts and data attributes.</p></div>
+                <div class="dropdownMenuContainer">
+                  <div class="normalFont">Chart:</div>
+                  <div class="dorpdownMenu">
+                    <select id='chart-type' style="width:65%;">
+                              <option value='scatter'>Scatter</option>
+                              <option value='bar'>Bar</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="dropdownMenuContainer">
+                  <div class="normalFont">X-Axis:</div>
+                  <div class="dorpdownMenu">
+                    <select id='x-attr' class='axisselector' style="width:65%;"> </select>
+                  </div>
+                </div>
+                <div class="dropdownMenuContainer">
+                  <div class="normalFont">Y-Axis:</div>
+                  <div class="dorpdownMenu">
+                    <select id='y-attr' class='axisselector' style="width:65%;"> </select>
+                  </div>
+                </div>
+                <div id="panelTitle"><p> Map graphical encodings to data attributes.</p></div>
+                <div class="dropdownMenuContainer">
+                  <div class="normalFont">Encoding:</div>
+                  <div class="dorpdownMenu">
+                    <select id='encoding-type' style="width:65%;">
+                              <option value='color'>Color</option>
+                              <option value='size'>Size</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="dropdownMenuContainer">
+                  <div class="normalFont">Data Attribute:</div>
+                  <div class="dorpdownMenu">
+                    <select id='dataAttribute' class='axisselector' style="width:65%;"></select>
+                  </div>
+                </div>
+            </div>
+            <div id="suggestionPanel" class="subPanels"></div>
+            <div id="actionPanel" class="subPanels"></div>
+          </div>
+          <div id="div2">
+            <ul class="nav nav-pills">
+               <li><a href="javascript:suggestionPanelCalled();" id='recomIcon' class="SwitchPanel">Suggestions</a></li>
+               <li><a href="javascript:controlPanelCalled();" id='controPanelIcon' class="SwitchPanel"></i> Control Panel</a></li>
+               <li><a href="javascript:actionPanelCalled();" id='actionIcon' class="SwitchPanel"></i>Actions</a></li>
+               <li class="active"><a href="javascript:detailPanelCalled();" id='detailIcon' class="SwitchPanel"></i>Details</a></li>
+            </ul>
+          </div>
+        </div>
+        <div id="VisContainer"></div>
+
+        <div id="rightPanel">
+           <div class="RightMenueIcon">
+               <img class="chartIcon barchart" src="Figures/barchart.png" alt="" />
+           </div>
+           <div class="RightMenueIcon">
+               <img class="chartIcon linechart" src="Figures/linechart.png" alt="" />
+           </div>
+           <div class="RightMenueIcon">
+               <img class="chartIcon scatterplot" src="Figures/scatterplot.png" alt="" />
+               <div class="RightMenueSubIcon"><i class="material-icons  md-light colorIcon md-32">color_lens</i></div>
+               <div class="RightMenueSubIcon"><i class="fa fa-expand fa-lg resizeIcon"></i></div>
+
+               <div class="RightMenueSubIcon"><i class="material-icons  md-light dragIcon md-32">touch_app</i></div>
+           </div>
+        </div>
+    </div>
+</body>
+<!--
+
+-->
+<script src="js/UI/ui.js"></script>
+<script src="js/UI/global.js"></script>
+<script src="js/UI/loadAttributeSelectors.js"></script>
+<script src="js/UI/main.js"></script>
+
+<script  type="text/javascript">
+    $("#VisContainer").height($(window).height());
+    $("#leftPanel").height($(window).height()-40);
+    $("#rightPanel").height($(window).height());
+</script>
+<script
+</html>

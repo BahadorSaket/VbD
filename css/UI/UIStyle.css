@@ -1,0 +1,232 @@
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body{
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .loadingmodal {
+    display: block;
+}
+
+body {
+    /*overflow-y: hidden;*/
+    font: 12px sans-serif;
+    color:white;
+    background-color:#282525;
+}
+
+/* begining of css for Icons on the right panel*/
+/* begining of css for Icons on the right panel*/
+/* begining of css for Icons on the right panel*/
+.RightMenueIcon{
+  text-align: center;
+  margin-top: 120px;
+  background:none;
+  width: 100%;
+}
+.RightMenueSubIcon{
+  text-align: center;
+  margin-top: 17px;
+  margin-left: 7px;
+  background:none;
+  width: 100%;
+}
+.chartIcon{
+  width:90%;
+}
+
+.chartIcon:hover{
+  background:#505050;
+  cursor: pointer;
+}
+
+.chartIconActive{
+  background:#505050;
+}
+
+.material-icons.md-32 {
+  font-size: 20px;
+}
+
+.fa-expand:hover{
+  color:#267bfb;
+  cursor: pointer;
+}
+.material-icons:hover{
+    color:#267bfb;
+    cursor: pointer;
+}
+
+.md-Active {
+    color:#267bfb;
+}
+
+/*
+.barchart, .linechart, .scatterplot {
+   width: 90%;
+}
+
+.barchart:hover, .linechart:hover, .scatterplot:hover {
+    background:#505050;
+}
+
+
+*/
+/* end of css for Icons on the right panel*/
+
+
+/* begining of css for the left panel*/
+/* begining of css for the left panel*/
+/* begining of css for the left panel*/
+.subPanels{
+   height:100%;
+   display:none;
+   margin:5px 0px 0px 0px;
+}
+
+.SwitchPanel{
+  font-size:11px;
+  color:white;
+  vertical-align: middle;
+  margin-left:7px;
+}
+
+.subPanelsDetail{
+  height:100%;
+  margin:5px 0px 0px 0px;
+}
+
+#leftPanel{
+    background-color:#2F2C2C;
+    width:21%;
+    float:left;
+}
+
+.nav-pills > li > a {
+    padding: 5px;
+}
+
+.dropdownMenuContainer{
+   width:100%;
+   margin:15px;
+   display:inline-block;
+}
+.dorpdownMenu{
+   width:60%;
+   font-size:11px;
+
+   float:left;
+}
+/* end of css for the left panel*/
+
+
+#div2{
+  position:absolute;
+  width:100%;
+  bottom:10px;
+  text-align: center;
+
+}
+
+i::before{
+    background:transparent;
+}
+
+.resizeIcon{
+  background-color: transparent;
+}
+
+select{
+    /*border: 0px;*/
+    outline: 0px;
+    background-color: #282525;
+    font-family: 'News Cycle', 'Arial Narrow Bold', sans-serif;
+    /*font-size: 12px;*/
+}
+
+
+i[class*=fa-expand]::before{
+   background:transparent;
+}
+/* Control panel css */
+
+#VisContainer{
+  width:65%;
+  float:left;
+}
+#rightPanel{
+  background-color:#2F2C2C;
+  float:right;
+  position: relative;
+	top: 50%;
+  width:4%;
+}
+.normalFont{
+     font-size:13px;
+     width:40%;
+     font-weight: bold;
+     float:left;
+     vertical-align: center;
+
+}
+
+#panelTitle{
+   font-size:12px;
+   width:100%;
+   margin-top: 25px;
+   margin-bottom: 10px;
+   border-bottom: #DEDEDE;
+   border-style: solid;
+   border-top: transparent;
+   border-left: transparent;
+   border-right: transparent;
+   border-width: thin;
+}
+.attributes_font
+{
+	font-size: 11px;
+}
+
+.attributes_container{
+    border-bottom: #DEDEDE;
+    border-style: solid;
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    border-width: thin;
+    margin: 0;
+    padding: 7px;
+}
+
+
+/*CSS for Recommendations*/
+
+.scatterAxis{
+   border:1px solid black;
+   border-color: white;
+   padding:2px;
+   margin-top:5px;
+}
+.dropdownMenu{
+    display: inline-block;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1px 5px;
+    margin-bottom: 0;
+    color:white;
+    font-size: 11px;
+}
+.btnIcon{
+font-size: 15px;
+padding-left:5px;
+font-weight: 400;
+line-height: 1.42857143;
+text-align: center;
+white-space: nowrap;
+cursor: pointer;
+}

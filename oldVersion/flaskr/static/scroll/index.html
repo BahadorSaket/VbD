@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Portfoliojs - jQuery plugin</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="author" content="Abhinay Omkar" />
+    <meta name="description" content="Portfoliojs - jQuery Plugin for your beautiful portfolio images with horizontal scrolling" />
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+    
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="js/jquery.easing.1.3.min.js" type="text/javascript"></script>
+    <script src="js/jquery.touchSwipe.min.js" type="text/javascript"></script>
+    <script src="js/jquery.imagesloaded.min.js" type="text/javascript"></script>
+    <script src="js/jquery.scrollTo-1.4.3.1-min.js" type="text/javascript"></script>
+    <script src="js/spin.min.js" type="text/javascript"></script>
+    <script src="js/portfolio.js" type="text/javascript"></script>
+
+    <style>
+        #header {
+            margin-bottom: 10px;
+            box-shadow: -3px 2px 7px #CCC;
+        } 
+
+        #header .download {
+            font-size: 12px;
+            font-weight: lighter;
+            margin-top: 15px;
+            margin-right: 15px;
+        }
+
+        #header .download strong {
+            display: block;
+        }
+
+        #gallery {
+            padding-bottom: 16px;
+        }
+
+        #gallery img {
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            font-family: 'Raleway', cursive;
+            font-weight: normal;
+        }
+
+        h1.logo-title {
+            font-family: 'Raleway', cursive;
+            margin-left: 15px;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            display: inline-block;
+            font-size: 28px;
+        }
+
+        .tagline {
+            font-family: 'Raleway', cursive;
+            display: inline-block;
+            margin-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        footer {
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .hint {
+            padding-right: 8px;
+            font-size: 12px;
+        }
+
+        .container-fluid {
+            width: 70%;
+            margin: auto;
+        }
+
+        /* 
+        a {
+            color: #444;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: black;
+            text-decoration: underline;
+        }
+
+        .small {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        */
+
+        .box-bottom {
+            padding: 0 15px;
+            box-shadow: -3px -3px 7px #CCC;
+            margin-top: 0px;
+        }
+
+        .gallery-nav {
+            padding: 10px 15px;
+            box-shadow: -3px -3px 7px #CCC;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+            display: none
+        }
+
+        pre {
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        @media screen and (max-width: 700px) {
+            .download { display: none; }
+
+            h1.logo-title { margin-bottom: 0; }
+            .tagline { margin-bottom: 10px; }
+        }
+
+     </style>
+    
+    <script>
+
+        $(document).ready(function() {
+            var p = $("#gallery").portfolio({ logger: true});
+            p.init();
+        }); // end of ready();
+
+    </script>
+</head>
+
+<body>
+
+<div id="header">
+    <h1 class="logo-title">Portfoliojs</h1>
+    <p class="tagline">Awesome jQuery plugin to showcase your portfolio</p>
+
+    <a href="https://github.com/abhiomkar/portfoliojs/zipball/master" class="btn download pull-right">(Download) <strong>Portfoliojs (Zipped)</strong></a>
+</div>
+
+<div class="clearfix"></div>
+
+<div id="content">
+
+    <div id="gallery">
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/1.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/2.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/3.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/4.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/5.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/6.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/7.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/8.jpg" />
+        <img data-src="https://dl.dropbox.com/u/1218282/slideshow/9.jpg" />
+    </div> <!-- .gallery -->
+
+    <div class="box-bottom">&nbsp;</div>
+
+    <div class="small hint muted pull-right">
+        Hint: Use Arrow Keys (or Swipe) to Navigate
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="container-fluid">
+        <h2>Introduction</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <p>Portfoliojs is a lightweight jQuery gallery plugin for your beautiful images with horizontal scrolling which supports desktop, tablet and mobile browsers. Checkout the <a href="javascript:$(document).scrollTo(0, 500);">demo</a> above. Fork it at github - <a href="https://github.com/abhiomkar/portfoliojs">abhiomkar/portfoliojs</a>.</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Features</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <ul>
+                <li>smart pre-loading</li>
+                <li>set custom height & width of gallery</li>
+                <li>set custom easingMethods for slide animation</li>
+                <li>multiple gallery support</li>
+                <li>lightbox</li>
+                <li>keyboard navigation</li>
+                <li>renders according to the device width. including mobile devices.</li>
+                <li>supports touch devices (iPhone/iPad/Android) swipe-to-slide</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Usage</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <ol>
+                    <li>Download the latest version of Portfoliojs</li>
+                    <li>Include latest version of <a href="https://developers.google.com/speed/libraries/devguide#jquery">jQuery</a> &amp; <a href="https://github.com/abhiomkar/portfoliojs/zipball/master">Portfoliojs</a> in your page</li>
+                    <br/>
+                    <pre>&lt;!-- jQuery --&gt;
+&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;!-- portfoliojs (unified with all dependencies) --&gt;
+&lt;script &quot;js/portfolio.pack.min.js&quot;&gt;&lt;/script&gt;</pre>
+                    <li>Add your images in gallery container and add an id to your gallery</li>
+                    <br/>
+                    <pre>&lt;div id=&quot;gallery&quot;&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/1.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/2.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/3.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/4.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/5.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/6.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/7.jpg&quot; /&gt;
+        &lt;img data-src=&quot;https://dl.dropbox.com/u/1218282/slideshow/8.jpg&quot; /&gt;
+&lt;/div&gt;</pre>
+                    <li>Call Portfoliojs with your gallery id</li>
+                    <br/>
+                    <pre>&lt;script&gt;
+    $(document).ready(function() {
+            var p = $(&quot;#gallery&quot;).portfolio();
+            p.init();
+    });
+&lt;/script&gt;</pre>
+                    <li>That's it!</li>
+                </ol>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Options</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <p>Portfoliojs Options</p>
+                    <pre>
+p = $('#gallery').portfolio({
+        loop: true, // loop on/off
+        easingMethod: 'easeOutQuint', // other easing methods please refer: http://gsgd.co.uk/sandbox/jquery/easing/
+        height: '500px', // gallery height
+        width: '100%', // gallery width in pixels or in percentage
+        lightbox: false, // dim off other images, highlights only currently viewing image
+        logger: false // for debugging purpose, turns on/off console.log() statements in the script
+    }); </pre>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Download</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <ul>
+                    <li>Download - <a href="https://github.com/abhiomkar/portfoliojs/zipball/master">Portfoliojs (Zipped)</a></li>
+                    <li>Browse through the source code at github - <a href="https://github.com/abhiomkar/portfoliojs">abhiomkar/portfoliojs</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Dependencies</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <ul>
+                    <li><a href="http://gsgd.co.uk/sandbox/jquery/easing">jQuery easing</a></li>
+                    <li><a href="http://labs.skinkers.com/touchSwipe">jQuery touch Swipe</a></li>
+                    <li><a href="http://desandro.github.com/imagesloaded">jQuery imageLoaded</a></li>
+                    <li><a href="http://flesler.blogspot.in/2007/10/jqueryscrollto.html">jQuery scrollTo</a></li>
+                    <li><a href="http://fgnass.github.com/spin.js">JS Spin</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>License</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <p><a href="http://opensource.org/licenses/mit-license.php">MIT License</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Author</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <ul>
+                    <li>Abhinay Omkar</li>
+                    <li>Twitter: <a href="http://twitter.com/abhiomkar">@abhiomkar</a></li>
+                    <li>Email: <a href="mailto:abhiomkar@gmail.com">abhiomkar@gmail.com</a></li>
+                    <li>Website: <a href="http://abhiomkar.in">abhiomkar.in</a></li>
+                    <li>Photos by <a href="http://fb.com/abhiomkar.photography">Abhiomkar's Photography</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <h2>Feedback</h2>
+        <div class="row-fluid">
+            <div class="span12">
+                <p>Report Issues/Bugs/Feature Requests here: <a href="https://github.com/abhiomkar/portfoliojs/issues">https://github.com/abhiomkar/portfoliojs/issues</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <span class="pull-left">Portfoliojs - Awesome jQuery plugin</span>
+            <span class="pull-right">&copy; Abhinay Omkar, 2012.</span>
+            <div class="clearfix"></div>
+        </footer>
+
+    </div> <!-- container -->
+
+</div> <!-- #content -->
+
+<div class="clearfix"></div>
+
+<hr>
+
+</body>
+</html>

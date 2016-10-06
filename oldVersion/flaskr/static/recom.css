@@ -1,0 +1,137 @@
+
+
+
+
+.recommendation{
+	background-color: white;
+	font-size: 8px;
+	font-weight: bold;
+}
+
+
+form {
+	margin:2px;
+    display: inline-block;
+    text-align: center;
+    }
+
+.inner-div4{
+	height: 100%;
+	width: 10000px;
+	z-index: 1;
+	/* DYNAMICALLY ADDED 
+	left
+	position: absolute;
+	*/
+	padding-top: 5px;
+}
+
+.scroll-right{
+	position: absolute;
+	right: 15%;
+	z-index: 2;
+	float: right;
+	font-size: 24pt !important;
+	padding: 0 3px 0 5px;
+	margin-right: 5px;
+	
+	color: gray;
+}
+.scroll-right:hover{
+	color: gray;
+	background-color: lightgray;
+}
+
+.scroll-left{
+	position: relative;
+	left: 0;
+	z-index: 2;
+	float: left;
+	font-size: 24pt !important;
+	padding: 0 5px 0 3px;
+	
+	color: gray;
+}
+.scroll-left:hover{
+	color: gray;
+	background-color: lightgray;
+}
+
+.scroll-hide{
+	color: red;
+}
+
+.hidden{
+	display: none;
+}
+
+.recommendation a{
+	    font-size: 2.0em;
+}
+
+.recommendation #accept{
+	    color: #4E4A4A;
+}
+.recommendation #reject{
+	    color: #4E4A4A;
+}
+
+.recomm_graph{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+.normal{
+	background-color: #F0F0F1;
+}
+
+.middle{
+	background-color: #d7d7da;
+}
+.important{
+	background-color: #b0b0b5;
+}
+
+
+.recommendationBar{
+	
+	padding: 6px;
+
+	float: left;
+	display: inline;
+	margin: 0 2.5px 5px 2.5px;
+}
+
+.boldText{
+	font-weight:bold;
+}
+
+.recommendationBar a{
+	    font-size: 2.0em;
+}
+.recommendationBar #accept{
+	    color: #4E4A4A;
+}
+.recommendationBar #reject{
+	    color: #4E4A4A;
+}
+
+
+
+.attributes_font
+{
+	font-size: 8px;
+}
+
+.attributes_container{
+    border-bottom: #DEDEDE;
+    
+    border-style: solid;
+    border-top: transparent;
+    border-left: transparent;
+    border-right: transparent;
+    border-width: thin;
+    margin: 0;
+    padding: 5px;
+}
