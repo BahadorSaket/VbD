@@ -131,10 +131,16 @@ type= " ";
                   }
                   if(axisStat==true)
                   {
+                    var draggedID = [];
+                    var dragged = d3.selectAll("circle").filter(".lastDragged")[0];
+                    dragged.forEach(function(d,i) {draggedID[i]=parseInt(d["id"].substring(3));});
+                    // console.log(draggedID);
+
+                    if (draggedID.length > 2) {
                       pca_data_transformation(transformed_data);
                       define_vis_status_afterDragg();
-                      rec_X = dist_recomm(data, pca_x_coordination, CircleID.split("_")[1]);
-                      rec_Y = dist_recomm(data, pca_y_coordination, CircleID.split("_")[1]);
+                      rec_X = dist_recomm(data, pca_x_coordination, draggedID);
+                      rec_Y = dist_recomm(data, pca_y_coordination, draggedID);
                       sorting = bar_sorting();
                       bar_orientation = check_collison(i);
                       /* This function returns an array of all recommendations */
@@ -142,6 +148,7 @@ type= " ";
                      // console.log(Recommendation)
                       /* This fucntion shows all the recoomendations */
                       cal_Recom_weight(Recommendation);
+                    }
                 }
 
             });

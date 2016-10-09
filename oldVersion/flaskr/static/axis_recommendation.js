@@ -1,28 +1,25 @@
-function dist_recomm(data, X, draggedPintID) {
+function dist_recomm(data, X, draggedID) {
 	// Normalize current axis values
 	var X_norm = [];
-	var min = d3.min(X),
-		max = d3.max(X);
-	for (var i=0; i<X.length; i++) {
-		X_norm[i] = (X[i]-min)/(max-min);
+	var min = mymin(X, draggedID),
+		max = mymax(X, draggedID);
+	for (var i=0; i<draggedID.length; i++) {
+		X_norm[i] = (X[draggedID[i]]-min)/(max-min);
 	}
-	//console.log(X_norm);
-
+	
 	// Normalize data
 	var data_norm = [];
 	var numAttr = data.length; // number of attributes
-	var numData = data[0].length;
+	var numData = draggedID.length; //data[0].length;
 	for (var i=0; i<numAttr; i++) {
-		var min = d3.min(data[i]),
-			max = d3.max(data[i]);
+		var min = mymin(data[i], draggedID),
+			max = mymax(data[i], draggedID);
 		var tmpAttr = [];
 		for (var j=0; j<numData; j++) {
-			tmpAttr[j] = (data[i][j]-min)/(max-min);
+			tmpAttr[j] = (data[i][draggedID[j]]-min)/(max-min);
 		}
 		data_norm[i] = tmpAttr;
 	}
-
-
 
 	// Calculate differences in distances
 	var distScore = [];
@@ -32,16 +29,43 @@ function dist_recomm(data, X, draggedPintID) {
 			distSum += (X_norm[j]-data_norm[i][j])*(X_norm[j]-data_norm[i][j]);
 		}
 		if(isNaN(distSum))
-			distScore[i] =1000;
+			distScore[i] = 1000;
 		else
 		    distScore[i] = distSum;
 	}
 
 
-	//console.log(distScore);
+	console.log(distScore);
 	return {'Score': distScore};
 
 	//return recAttr;
+}
+
+function mymin(array, index) {
+	if (index==undefined)
+		return d3.min(array)
+	else {
+		var val = Infinity;
+		for (var i=0; i<index.length; i++) {
+			if (val > array[index[i]]) {
+				val = array[index[i]];
+			}
+		}
+		return val;
+	}
+}
+function mymax(array, index) {
+	if (index==undefined)
+		return d3.max(array)
+	else {
+		var val = -Infinity;
+		for (var i=0; i<index.length; i++) {
+			if (val < array[index[i]]) {
+				val = array[index[i]];
+			}
+		}
+		return val;
+	}
 }
 
 
