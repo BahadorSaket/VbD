@@ -1,5 +1,8 @@
-function dist_recomm(data, X) {
+function dist_recomm(data, X, draggedPintID) {
 	// Normalize current axis values
+
+  console.log(draggedPintID);
+
 	var X_norm = [];
 	var min = d3.min(X),
 		max = d3.max(X);
@@ -36,29 +39,24 @@ function dist_recomm(data, X) {
 		else
 		    distScore[i] = distSum;
 	}
-    
+
 
 	//console.log(distScore);
 	return {'Score': distScore};
-	
+
 	//return recAttr;
 }
 
 
-
 /**********************************************************************/
 function size_recomm(data,dataPointSize){
-
-	// data  -- >  my dataset
-
-	
-    // Normalize data points size 
-    var Size_norm = [];
+    // Normalize data points size
+  var Size_norm = [];
 	var min = d3.min(dataPointSize),
-		max = d3.max(dataPointSize);
-    numResizedPoints =0;
+	max = d3.max(dataPointSize);
+  numResizedPoints =0;
 	for (var i=0; i<dataPointSize.length; i++) {
-        
+
         if(dataPointSize[i] > radius)
         {
             Size_norm[i] = 0.5 * (1+ ((dataPointSize[i] - (radius*radius)*3.14)/(max - (radius*radius)*3.14 )));
@@ -73,9 +71,9 @@ function size_recomm(data,dataPointSize){
         {
         	Size_norm[i] = 0.5;
         }
-    
+
 	}
-    
+
 
 
     // Normalize data
@@ -93,19 +91,19 @@ function size_recomm(data,dataPointSize){
 	}
 
 
-    // dis function
-    var distScore = [];
+  // dis function
+  var distScore = [];
 	for (var i=0; i<numAttr; i++) {
 		var distSum = 0;
 		for (var j=0; j<dataPointSize.length; j++) {
-			if(Size_norm[j] != 0.5) 
+			if(Size_norm[j] != 0.5)
 			     distSum += ((data_norm[i][j] - Size_norm[j])*(data_norm[i][j] - Size_norm[j]))/numResizedPoints;
 		}
 		if(isNaN(distSum))
 			distScore[i] =1;
 		else
 			distScore[i] = (numResizedPoints/numAttr)*distSum;
-	} 
+	}
     return {'Score': distScore};
 }
 
@@ -121,7 +119,7 @@ function clustering_recomm(data, nbr_list) { // weighted k-means
 	for (var i=0; i<X.length; i++) {
 		X_norm[i] = (X[i]-min)/(max-min);
 	}
-	
+
 	// Normalize data
 	var data_norm = [];
 	var numAttr = data.length; // number of attributes
@@ -136,11 +134,11 @@ function clustering_recomm(data, nbr_list) { // weighted k-means
 		data_norm[i] = tmpAttr;
 	}
 
-	// Check which attributes 
+	// Check which attributes
 	// for
 
 	// Calculate weighted distances
-	
+
 }
 
 // function k_means(data, k) {
@@ -148,7 +146,7 @@ function clustering_recomm(data, nbr_list) { // weighted k-means
 // 	var centroid = [];
 // 	for (var i=0; i<k; i++) {
 // 		var tmpcent = [];
-// 		for (var j=0; j<data.length; j++) { 
+// 		for (var j=0; j<data.length; j++) {
 // 			tmpcent[j] = Math.random();
 // 		}
 // 		centroid[i] = tmpcent;
@@ -171,7 +169,7 @@ function clustering_recomm(data, nbr_list) { // weighted k-means
 // 	}
 // }
 
-function k_means_loop(data, centroid, weight) {	
+function k_means_loop(data, centroid, weight) {
 	var k = centroid.length;
 
 	// Assign data items to clusters
@@ -203,7 +201,7 @@ function k_means_loop(data, centroid, weight) {
 		var assn = cluster[i];
 		for (var j=0; j<data.length; j++) {
 			centroid[assn][j] += data[j][i];
-			count[assn]++; 
+			count[assn]++;
 		}
 	}
 	for (var i=0; i<k; i++) {
@@ -227,7 +225,7 @@ function k_means_loop(data, centroid, weight) {
 	return {"cluster": cluster, "centroid": centroid, "k": centroid.length};
 }
 
-function color_recomm(data, trans_data) {	
+function color_recomm(data, trans_data) {
 	var numAttr = data.length; // number of attributes
 	var numData = data[0].length;
 	var color_trans = d3.nest()
@@ -290,7 +288,7 @@ function uniqueNo(arr) { // return the number of unique values in an array
 function coloring_preview(fake_data, id, output) {
 	//console.log("output");
 	//console.log(output);
-	
+
 	 var color_assgn = [];
 	 output.forEach(function(d) {
 	 	if (d.attr == id) {
