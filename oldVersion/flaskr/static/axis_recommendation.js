@@ -1,8 +1,5 @@
 function dist_recomm(data, X, draggedPintID) {
 	// Normalize current axis values
-
-  console.log(draggedPintID);
-
 	var X_norm = [];
 	var min = d3.min(X),
 		max = d3.max(X);
