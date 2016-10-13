@@ -11,4 +11,7 @@ VisExamplar development is led by Bahador Saket at Georgia Tech, in collaboratio
 
 ## Setup Instruction
 Make sure you have python. 
-<code> cd </code> into the forlder called "oldVersion" inside your local clone. <code> cd </code> into the folder called "flaskr"
+<code> cd </code> into the forlder called <code>oldVersion/flaskr</code> inside your local clone. 
+
+You can run <code> python app.py </code>, which serves the site. Open <code> localhost:5000/home </code> using any web browser. 
+
