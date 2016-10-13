@@ -11,4 +11,4 @@ VisExamplar development is led by Bahador Saket at Georgia Tech, in collaboratio
 
 ## Setup Instruction
 Make sure you have python. 
-  cd into your local clone. 
+<pre> cd </pre>into your local clone. 
