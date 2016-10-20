@@ -593,7 +593,7 @@ function ShowRecommendation(recom, id)
 	   	else if(clusters.indexOf(Number(id)) != -1)
       {
 	         fake_data = coloring_preview(fake_data, id, output);
-           console.log(fake_data);
+//           console.log(fake_data);
 			     d3.selectAll(".state").each( function(d, i){
 			 	        id_preview = "id_"+d3.select(this).attr("id").split("_")[1];
 			          d3.select(this).style("fill", function(g,j){

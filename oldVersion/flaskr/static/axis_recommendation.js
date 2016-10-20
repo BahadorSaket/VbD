@@ -247,14 +247,15 @@ function k_means_loop(data, centroid, weight) {
 }
 
 function color_recomm(data, trans_data) {
-	var numAttr = data.length; // number of attributes
+    var numAttr = data.length; // number of attributes
 	var numData = data[0].length;
 	var color_trans = d3.nest()
 		.key(function(d) {return d.Color;})
 		.rollup(function(v) {return v.map(function (el) {return Number(el.dataId.substring(3));});})
 		.entries(trans_data)
 		.filter(function(d) {return d.key!="#85E087";});
-	var colorSet = color_trans.map(function(el) {return el.key;});
+//    console.log(color_trans); // [{key:"red", values:[data ids 0, 1, 10]}, {key:"blue", values:[data ids 10, 11, 110]}]
+	var colorSet = color_trans.map(function(el) {return el.key;}); // ["red", "blue"]
 	var output = [];
 	for (var i=0; i<categorical.length; i++) {
 		var tmpClr = [];
@@ -265,18 +266,30 @@ function color_recomm(data, trans_data) {
 				tmpDataCol[k] = data[categorical[i]][color_trans[j].values[k]];
 			}
 			if (uniqueNo(tmpDataCol)==1) {
-				tmpClr.push([color_trans[j].key, attrVal]);
+				tmpClr.push([color_trans[j].key, attrVal]); // ["red", 4]
 			}
 		}
-		if (tmpClr.length == colorSet.length) {
-			var tmpVals = [];
-			tmpClr.forEach(function(d) {tmpVals.push(d[1]);});
-			if (uniqueNo(tmpVals) == colorSet.length) {
-				output.push({"attr":categorical[i], "val":tmpClr});
-			}
-		}
+        // new coloring code
+        var tmpVals = [];
+        var uniqVals = unique(data[categorical[i]]);
+        var colores_g = ["#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"];
+        tmpClr.forEach(function(d) {tmpVals.push(d[1]); uniqVals.splice(uniqVals.indexOf(d[1]),1);});
+        var numClrs = uniqVals.length;
+        if (uniqueNo(tmpVals) == colorSet.length) {
+            for (var j=0; j<numClrs; j++) {
+                tmpClr.push([colores_g[j], uniqVals[j]]);
+            }
+            output.push({"attr":categorical[i], "val":tmpClr});
+        }
+        // old coloring code
+//		if (tmpClr.length == colorSet.length) {
+//			var tmpVals = [];
+//			tmpClr.forEach(function(d) {tmpVals.push(d[1]);});
+//			if (uniqueNo(tmpVals) == colorSet.length) {
+//				output.push({"attr":categorical[i], "val":tmpClr});
+//			}
+//		}
 	}
-	//console.log(output);
 	return output;
 }
 
@@ -304,6 +317,18 @@ function uniqueNo(arr) { // return the number of unique values in an array
         prev = arr[i];
     }
     return a.length;
+}
+
+function unique(arr) { // return the number of unique values in an array
+    var a = [], prev;
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            a.push(arr[i]);
+        }
+        prev = arr[i];
+    }
+    return a;
 }
 
 function coloring_preview(fake_data, id, output) {
