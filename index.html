@@ -24,6 +24,8 @@
     <script src="js/UI/showRecom.js"></script>
     <script src="js/Scatterplot/Coloring/Scatter_ColorPicker.js"></script>
     <script src="js/Scatterplot/Coloring/Scatter_ColorActivation.js"></script>
+    <script src="js/Scatterplot/Selection/Scatter_SelectionItem.js"></script>
+    <script src="js/Scatterplot/Selection/Scatter_SelectionActivation.js"></script>
     <script src="js/Scatterplot/Resizing/Scatter_ResizeActivation.js"></script>
     <script src="js/Scatterplot/Resizing/Scatter_ResizeCircle.js"></script>
     <script src="js/Scatterplot/Resizing/Scatter_ResizeActivation.js"></script>
@@ -31,6 +33,7 @@
     <script src="js/Scatterplot/Drag/Scatter_DragActivation.js"></script>
     <script src="js/StartingVisualization/startVis.js"></script>
     <script src="js/clone.js"></script>
+    <script src="js/DataProcessor.js"></script>
     <script src="js/Recommendations/recomEngine.js"></script>
     <script src="js/Recommendations/recomPresentation.js"></script>
     <script src="js/Recommendations/recomProcessing.js"></script>
@@ -50,8 +53,9 @@
                   <div class="normalFont">Chart:</div>
                   <div class="dorpdownMenu">
                     <select id='chart-type' style="width:65%;">
-                              <option value='scatter'>Scatter</option>
-                              <option value='bar'>Bar</option>
+                              <option value=''> </option>
+                              <option value='scatter'>Scatterplot</option>
+                              <option value='bar'>Bar Chart</option>
                     </select>
                   </div>
                 </div>
@@ -72,6 +76,7 @@
                   <div class="normalFont">Encoding:</div>
                   <div class="dorpdownMenu">
                     <select id='encoding-type' style="width:65%;">
+                              <option value=''> </option>
                               <option value='color'>Color</option>
                               <option value='size'>Size</option>
                     </select>
@@ -82,7 +87,11 @@
                   <div class="dorpdownMenu">
                     <select id='dataAttribute' class='axisselector' style="width:65%;"></select>
                   </div>
+                  <div style="padding-top:50px;">
+                    <button class="btn createVis" style="background-color:#337ab7;" type="button"> Create</button>
+                  </div>
                 </div>
+
             </div>
             <div id="suggestionPanel" class="subPanels"></div>
             <div id="actionPanel" class="subPanels"></div>
@@ -99,19 +108,10 @@
         <div id="VisContainer"></div>
 
         <div id="rightPanel">
-           <div class="RightMenueIcon">
-               <img class="chartIcon barchart" src="Figures/barchart.png" alt="" />
-           </div>
-           <div class="RightMenueIcon">
-               <img class="chartIcon linechart" src="Figures/linechart.png" alt="" />
-           </div>
-           <div class="RightMenueIcon">
-               <img class="chartIcon scatterplot" src="Figures/scatterplot.png" alt="" />
-               <div class="RightMenueSubIcon"><i class="material-icons  md-light colorIcon md-32">color_lens</i></div>
-               <div class="RightMenueSubIcon"><i class="fa fa-expand fa-lg resizeIcon"></i></div>
-
-               <div class="RightMenueSubIcon"><i class="material-icons  md-light dragIcon md-32">touch_app</i></div>
-           </div>
+           <div class="RightMenueIcon"><i class="fa fa-mouse-pointer fa-lg SelectIcon" aria-hidden="true"></i></div>
+           <div class="RightMenueIcon"><i class="material-icons  md-light colorIcon md-32">color_lens</i></div>
+           <div class="RightMenueIcon"><i class="fa fa-expand fa-lg resizeIcon"></i></div>
+           <div class="RightMenueIcon"><i class="material-icons  md-light dragIcon md-32">touch_app</i></div>
         </div>
     </div>
 </body>

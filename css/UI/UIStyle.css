@@ -16,6 +16,7 @@ body {
     font: 12px sans-serif;
     color:white;
     background-color:#282525;
+    shape-rendering: crispEdges;
 }
 
 /* begining of css for Icons on the right panel*/
@@ -34,24 +35,17 @@ body {
   background:none;
   width: 100%;
 }
-.chartIcon{
-  width:90%;
-}
-
-.chartIcon:hover{
-  background:#505050;
-  cursor: pointer;
-}
-
-.chartIconActive{
-  background:#505050;
-}
 
 .material-icons.md-32 {
   font-size: 20px;
 }
 
 .fa-expand:hover{
+  color:#267bfb;
+  cursor: pointer;
+}
+
+.fa-mouse-pointer:hover{
   color:#267bfb;
   cursor: pointer;
 }
@@ -135,6 +129,10 @@ i::before{
     background:transparent;
 }
 
+.SelectIcon{
+  background-color: transparent;
+}
+
 .resizeIcon{
   background-color: transparent;
 }
@@ -149,6 +147,9 @@ select{
 
 
 i[class*=fa-expand]::before{
+   background:transparent;
+}
+i[class*=fa-mouse-pointer]::before{
    background:transparent;
 }
 /* Control panel css */

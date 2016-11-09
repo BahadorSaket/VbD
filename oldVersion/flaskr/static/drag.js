@@ -145,7 +145,8 @@ type= " ";
                       bar_orientation = check_collison(i);
                       /* This function returns an array of all recommendations */
                       Recommendation= generateRecom(bar_orientation, rec_X, rec_Y, Recommendation,xAxis_value,sorting,clusters);
-                     // console.log(Recommendation)
+                    
+                      //console.log(Recommendation)
                       /* This fucntion shows all the recoomendations */
                       cal_Recom_weight(Recommendation);
                     }

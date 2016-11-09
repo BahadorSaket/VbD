@@ -21,9 +21,9 @@ function dragged(d,i) {
 }
 
 function dragended(d,i) {
-       d3.select("#resizeIcon_"+i).attr("transform", function(d,i){
-          return "translate("+(d.x+d.r/3)+","+ (d.y+d.r/2.5)+")";
-       })
+        d3.select("#resizeIcon_"+i).attr("transform", function(d,i){
+           return "translate(" + [ (d.r/2),(d.r/2.5) ] + ")"
+        })
        var newDataset = clone(dataset);
        var re = new recomEngine("drag", oldDataset, newDataset);
        re.scatterGetRecom(re);

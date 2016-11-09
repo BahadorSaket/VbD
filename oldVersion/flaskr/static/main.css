@@ -98,27 +98,27 @@ p{
     display:none;
     fontsize:0 px;
 
-} 
+}
 
 .yLabelHide{
     display:none;
     fontsize:0 px;
-} 
+}
 
 .xLabelShow{
   font-size: 10px;
-    font-weight: bold; 
+    font-weight: bold;
     font-weight: 2;
 
 
-} 
+}
 
 .yLabelShow{
    font-size: 10px;
-    font-weight: bold; 
+    font-weight: bold;
     font-weight: 2;
 
-} 
+}
 
 
 
@@ -140,7 +140,7 @@ p{
 
 .axisShow text {
     font-size: 9px;
-    font-weight: bold; 
+    font-weight: bold;
     font-weight: 2;
 }
 
@@ -153,7 +153,7 @@ p{
 }
 
 .axisHide text {
-    font-size: 0px; 
+    font-size: 0px;
 }
 
 
@@ -203,7 +203,7 @@ rect.selection {
   font-weight: bold;
 }
 .dataset-datapoint{
-  
+
   font-weight: bold;
   margin:15px 5px 5px 5px;
 }

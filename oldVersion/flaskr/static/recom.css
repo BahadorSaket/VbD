@@ -19,7 +19,7 @@ form {
 	height: 100%;
 	width: 10000px;
 	z-index: 1;
-	/* DYNAMICALLY ADDED 
+	/* DYNAMICALLY ADDED
 	left
 	position: absolute;
 	*/
@@ -34,7 +34,7 @@ form {
 	font-size: 24pt !important;
 	padding: 0 3px 0 5px;
 	margin-right: 5px;
-	
+
 	color: gray;
 }
 .scroll-right:hover{
@@ -49,7 +49,7 @@ form {
 	float: left;
 	font-size: 24pt !important;
 	padding: 0 5px 0 3px;
-	
+
 	color: gray;
 }
 .scroll-left:hover{
@@ -95,7 +95,7 @@ form {
 
 
 .recommendationBar{
-	
+
 	padding: 6px;
 
 	float: left;
@@ -126,7 +126,7 @@ form {
 
 .attributes_container{
     border-bottom: #DEDEDE;
-    
+
     border-style: solid;
     border-top: transparent;
     border-left: transparent;

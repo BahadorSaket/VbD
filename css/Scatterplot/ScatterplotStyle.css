@@ -1,5 +1,3 @@
-
-/* Axis css */
 .axis path,
 .axis text,
 .axis line {
@@ -7,10 +5,16 @@
   stroke: #FFF;
   shape-rendering: crispEdges;
 }
+
 .dot {
   stroke: #FFF;
 }
 
+.selected{
+  stroke-width:2.5;
+  stroke:yellow;
+
+}
 
 .colorpicker-position {
   left:30px; top:100px;

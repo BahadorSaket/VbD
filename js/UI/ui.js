@@ -3,6 +3,8 @@
 	uiHandler = {};
 
  	// this is for adding/removing blue color from icons on the right side panels
+
+  /*
 	$(".barchart").click(function(){
 	   $("#rightPanel img").removeClass("chartIconActive");
 	   $(".barchart" ).addClass("chartIconActive");
@@ -17,23 +19,38 @@
 		 $("#rightPanel img").removeClass("chartIconActive");
 		 $(".linechart" ).addClass("chartIconActive");
 	});
+*/
+  $(".SelectIcon").click(function(){
+     sc.Scatter_SelectionActivation();
+     $(".RightMenueIcon i").removeClass("md-Active");
+     $(".SelectIcon").addClass("md-Active");
+  });
 
 	$(".colorIcon").click(function(){
 	   sc.Scatter_ColorActivation();
-		 $(".RightMenueSubIcon i").removeClass("md-Active");
+		 $(".RightMenueIcon i").removeClass("md-Active");
 		 $(".colorIcon" ).addClass("md-Active");
 	});
 	$(".resizeIcon").click(function(){
 		 sc.Scatter_ResizeActivation();
- 		 $(".RightMenueSubIcon i").removeClass("md-Active");
+ 		 $(".RightMenueIcon i").removeClass("md-Active");
  		 $(".resizeIcon" ).addClass("md-Active");
  	});
+
 	$(".dragIcon").click(function(){
 		 sc.Scatter_DragActivation();
- 		 $(".RightMenueSubIcon i").removeClass("md-Active");
+ 		 $(".RightMenueIcon i").removeClass("md-Active");
  		 $(".dragIcon" ).addClass("md-Active");
  	});
 
+  $('.createVis').click(function () {
+      var chart = $("#chart-type option:selected").text();
+      var xAxis = $("#x-attr option:selected").text();
+      var yAxis = $("#y-attr option:selected").text();
+      var encoding = $("#encoding-type option:selected").text();
+      var attr = $("#dataAttribute option:selected").text();
+      createVis(chart, xAxis, yAxis, encoding, attr);
+  });
 
 	$("#leftPanelToggleButton").click(function(ev){
 		toggleLeftPanel();
