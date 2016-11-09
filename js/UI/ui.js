@@ -123,7 +123,7 @@ function ShowDetail(circle_id){
   var numberOfAddedAttributes = 4
 	$("#detailPanel > p" ).remove();
   dataAttributeNames = Object.keys(dataset[0]);
-	for(j=dataAttributeNames.length-numberOfAddedAttributes-1;j>=1;	j=j-1)
+	for(j=dataAttributeNames.length-numberOfAddedAttributes-2;j>=1;	j=j-1)
   {
 			$("#detailPanel").prepend('<p class="attributes_container attributes_font" id="attrID_'+j+'"> <b>'+dataAttributeNames[j]+':</b> '+dataset[circle_id][dataAttributeNames[j]]+'</p>');
 	}

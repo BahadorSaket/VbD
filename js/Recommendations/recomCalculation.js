@@ -1,6 +1,6 @@
 
 
-var excludedAttributes=["ID","Type","Name","x","y","color","r"];
+var excludedAttributes=["ID","Type","Name","x","y","color","r","ial"];
 
 /************************************************************************************/
 // This function returns a list of attributes that have numerical values and will be counted in our calculations.
@@ -77,4 +77,50 @@ function scatterAxesRecomCalculation(Axis, data, newData) {
   }
 //  console.log(distScore);
   return distScore;
+}
+
+
+function scatterGetMaxMinValueOfAttr(attr, listSelectedItems){
+  var tempValues = [];
+  for(i=0;i<listSelectedItems.length;i++)
+  {
+    tempValues.push(dataset[listSelectedItems[i]][attr]);
+  }
+  var min = d3.min(tempValues);
+  var max = d3.max(tempValues);
+  return {"Min":min, "Max":max};
+}
+function scatterFormingSelectedItems(disScore, listSelectedItems){
+  var temp=[];
+//  console.log(disScore);
+  var threshold = 0.95;
+  for(var i in disScore)
+  {
+    if(i == "Type")
+    {
+       if(disScore[i]==1)
+       {
+           temp.push({"Attr":i, "Dis":disScore[i], "Min":dataset[listSelectedItems[0]][i], "Max":dataset[listSelectedItems[0]][i]});
+       }
+    }
+    else if(i != "Name" && i != "ID")
+    {
+      if(disScore[i]>=threshold)
+      {
+        var range = scatterGetMaxMinValueOfAttr(i, listSelectedItems);
+        temp.push({"Attr":i, "Dis":disScore[i], "Min":range.Min, "Max":range.Max});
+      }
+    }
+  }
+  return temp;
+}
+
+function scatterSelectedItemsAttrCalculation(listSelectedItems){
+  var pointToCompare =[];
+  for(var i = 0; i < listSelectedItems.length; i++) {
+    pointToCompare.push(dataset[listSelectedItems[i]]);
+  }
+  var val = ial.generateAttributeWeightVectorUsingSimilarity(pointToCompare);
+  val = scatterFormingSelectedItems(val,listSelectedItems);
+  return val;
 }

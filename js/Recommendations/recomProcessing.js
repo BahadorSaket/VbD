@@ -1,7 +1,8 @@
-var recomProcessing = function(xAxisScoringVector,yAxisScoringVector){
+var recomProcessing = function(xAxisScoringVector,yAxisScoringVector,GeneralizableSelectionOptions){
     this.xAxisScoringVector = xAxisScoringVector;
     this.yAxisScoringVector = yAxisScoringVector;
     this.recommendations = [{"Type":"initial", "Weight":0.0}]; // recommendation is a list of objects where each object contains information about one recommendation
+    this.GeneralizableSelectionOptions = GeneralizableSelectionOptions;
 }
 
 function sortAxisVector(a,b){
@@ -40,14 +41,29 @@ recomProcessing.prototype.scatterAssignAttrToAxes=function(Obj){
    var tempRecommendations = [];
    for(i=0;i<Obj.xAxisScoringVector.length;i++)
    {
-     var Type = "Axis_X_"+ Obj.xAxisScoringVector[i].key;
-     tempRecommendations.push({"ID":i, "Type":Type, "Weight":0.0, "Relavance":Obj.xAxisScoringVector[i].val});
-     Type = "Axis_Y_"+ Obj.xAxisScoringVector[i].key;
-     tempRecommendations.push({"ID":i+1, "Type":Type, "Weight":0.0, "Relavance":Obj.yAxisScoringVector[i].val});
+     var Type = "Axis-X-"+ Obj.xAxisScoringVector[i].key;
+     tempRecommendations.push({"ID": "Axis", "Type":Type, "Weight":0.0, "Relavance":Obj.xAxisScoringVector[i].val});
+     Type = "Axis-Y-"+ Obj.xAxisScoringVector[i].key;
+     tempRecommendations.push({"ID": "Axis", "Type":Type, "Weight":0.0, "Relavance":Obj.yAxisScoringVector[i].val});
    }
 
    this.recommendations = this.checkAvailabilityOfRecommendations(tempRecommendations);
-
    var recomPres = new recomPresentation();
-   recomPres.scatterRecomType(this.recommendations); // send recom for presentation
+   recomPres.scatterAxesRecom(this.recommendations); // send recom for presentation
+}
+
+recomProcessing.prototype.scatterGneralizableSelection=function(GeneralizableSelectionOptions){
+
+   var tempRecommendations = [];
+   for(i=0;i<GeneralizableSelectionOptions.length;i++)
+   {
+     var Type = "Select-"+ GeneralizableSelectionOptions[i].Attr+"-"+GeneralizableSelectionOptions[i].Min+"-"+GeneralizableSelectionOptions[i].Max;
+     tempRecommendations.push({"ID": "Selection", "Type":Type, "Weight":0.0, "Relavance":GeneralizableSelectionOptions[i].Dis});
+   }
+
+   this.recommendations = this.checkAvailabilityOfRecommendations(tempRecommendations);
+   var recomPres = new recomPresentation();
+   recomPres.scatterSelectionRecom(this.recommendations); // send recom for presentation
+   //console.log(this.recommendations);
+
 }

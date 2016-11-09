@@ -1,4 +1,4 @@
-ID,Name,Type,AWD,RWD,Retail_Price,Dealer_Cost,Engine_Size,Cylinder,Horsepower,City_Miles_Per_Gallon,Highway_Miles_Per_Gallon,Weight,Wheel_Base,Length,Width
+ID,Name,Type,AWD,RWD,Retail Price,Dealer Cost,Engine Size,Cylinder,Horsepower,City MPG,Highway MPG,Weight,Wheel Base,Length,Width
 0,Acura 3.5 RL 4dr,Sedan,0,0,43755,39014,3.5,6,225,18,24,3880,115,197,72
 1,Acura 3.5 RL w/Navigation 4dr,Sedan,0,0,46100,41100,3.5,6,225,18,24,3893,115,197,72
 2,Acura MDX,SUV,1,0,36945,33337,3.5,6,265,17,23,4451,106,189,77

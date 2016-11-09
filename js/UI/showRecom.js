@@ -14,16 +14,16 @@ function updateDropDownMenu(recomList)
 
 }
 
-function addAxisRecom(tempList, addRecomFunc,removeRecomFunc)
+function addAxisRecom(tempList)
 {
   $( ".scatterAxis" ).remove();
   var recomList_x ="", recomList_y="";
   for(i=0;i<tempList.length;i++)
   {
-     if(tempList[i].Type.split("_")[1]=="X")
-        recomList_x += "<li><a href='#'>"+tempList[i].Type.split("_")[2]+"</a></li>";
+     if(tempList[i].Type.split("-")[1]=="X")
+        recomList_x += "<li><a href='#'>"+tempList[i].Type.split("-")[2]+"</a></li>";
      else
-        recomList_y += "<li><a href='#'>"+tempList[i].Type.split("_")[2]+"</a></li>";
+        recomList_y += "<li><a href='#'>"+tempList[i].Type.split("-")[2]+"</a></li>";
   }
   updateDropDownMenu(recomList_x);
   updateDropDownMenu(recomList_y);
@@ -33,7 +33,10 @@ function addAxisRecom(tempList, addRecomFunc,removeRecomFunc)
   $('.scatterAxis').prepend('<a id="accept" class="btnIcon" href="#"><i class="fa fa-check-circle"></i></a>');
 }
 
+function addSelectionRecom(tempList)
+{
 
+}
 
 
 function removeDynRecom(recomID){
