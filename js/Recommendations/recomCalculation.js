@@ -121,6 +121,7 @@ function scatterSelectedItemsAttrCalculation(listSelectedItems){
     pointToCompare.push(dataset[listSelectedItems[i]]);
   }
   var val = ial.generateAttributeWeightVectorUsingSimilarity(pointToCompare);
+  console.log(val);
   val = scatterFormingSelectedItems(val,listSelectedItems);
   return val;
 }

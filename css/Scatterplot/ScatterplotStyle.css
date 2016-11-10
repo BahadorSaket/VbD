@@ -9,6 +9,9 @@
 .dot {
   stroke: #FFF;
 }
+.hidden{
+  display:none;
+}
 
 .selected{
   stroke-width:2.5;

@@ -17,6 +17,7 @@
 
     <!--JS files-->
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="js/AdditionalWidgets/d3-context-menu.js"></script>
@@ -95,7 +96,18 @@
 
             </div>
             <div id="suggestionPanel" class="subPanels"></div>
-            <div id="actionPanel" class="subPanels"></div>
+            <div id="actionPanel" class="subPanels">
+              <div id="navbar">
+                <form class="form">
+                       <input id="query" style="color:black;" value= " search ..." type="query" onKeyPress='if (event.which==13) return false;' />
+                       <input class= "btn" style="background-color:#337ab7;" id="search" onclick='Query()' style="margin-left:10px;" type='button' value="Search">
+                       <input class= "btn" style="background-color:#337ab7;" id="clear" onclick='Clean()' style="margin-left:4px;" type='button' value="Clear">
+                       <input class= "btn" style="background-color:#337ab7;" id="add"  onclick='addCircles()' style="margin-left:4px;" type='button' value="Add">
+                </form>
+                <div class="table">
+                </div>
+              </div>
+            </div>
           </div>
           <div id="div2">
             <ul class="nav nav-pills">
@@ -113,6 +125,7 @@
            <div class="RightMenueIcon"><i class="material-icons  md-light colorIcon md-32">color_lens</i></div>
            <div class="RightMenueIcon"><i class="fa fa-expand fa-lg resizeIcon"></i></div>
            <div class="RightMenueIcon"><i class="material-icons  md-light dragIcon md-32">touch_app</i></div>
+           <div class="RightMenueIcon"><i class="fa fa-refresh fa-lg refreshIcon" aria-hidden="true"></i>
         </div>
     </div>
 </body>
@@ -128,6 +141,37 @@
     $("#VisContainer").height($(window).height());
     $("#leftPanel").height($(window).height()-40);
     $("#rightPanel").height($(window).height());
+
+    function Query() {
+     var querybox = d3.select('#query');
+     var text = querybox[0][0].value;
+     d3.selectAll(".name").each(function(d,i)
+     {
+       id_Q = d3.select(this).attr("id");
+       text1 = text.toLowerCase();
+       text1= text1.trim();
+       text2 = dataset[Number(id_Q)].Name;
+       text2 = text2.toLowerCase();
+       text2= text2.trim();
+
+       if(text1 == text2 || text2.indexOf(text1) > -1)
+       {
+         d3.select(this).classed("selectedTable", true);
+       }
+
+    })
+   }
+   function addCircles(){
+     d3.selectAll(".selectedTable").each(function(d,i)
+     {
+       d3.select("#g_id_"+i).classed("hidden", false);
+     });
+   }
+   function query_submit() {
+     Query();
+     return false;
+   }
+
 </script>
 <script
 </html>

@@ -2,24 +2,14 @@
   var sc = new Scatterplot();
 	uiHandler = {};
 
- 	// this is for adding/removing blue color from icons on the right side panels
 
-  /*
-	$(".barchart").click(function(){
-	   $("#rightPanel img").removeClass("chartIconActive");
-	   $(".barchart" ).addClass("chartIconActive");
-	});
+  $(".refreshIcon").click(function(){
+     $(".RightMenueIcon i").removeClass("md-Active");
+     $(".refreshIcon" ).addClass("md-Active");
 
-	$(".scatterplot").click(function(){
-	   $("#rightPanel img").removeClass("chartIconActive");
-		 $(".scatterplot" ).addClass("chartIconActive");
-	});
+     refreshRandomScatter();
+  });
 
-	$(".linechart").click(function(){
-		 $("#rightPanel img").removeClass("chartIconActive");
-		 $(".linechart" ).addClass("chartIconActive");
-	});
-*/
   $(".SelectIcon").click(function(){
      sc.Scatter_SelectionActivation();
      $(".RightMenueIcon i").removeClass("md-Active");

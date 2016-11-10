@@ -18,7 +18,7 @@ function startVis (dataset) {
   gdots =  svg.selectAll("g.dot")
               .data(dataset)
               .enter().append('g')
-              .attr("class", "dot")
+              .attr("class", "dot hidden")
               .attr("id", function(d,i){return "g_id_"+d.ID;})
               .attr("transform", function(d,i){
                     d.x = Math.floor((Math.random() * width ));
@@ -61,4 +61,19 @@ function createVis(chart, xAxis, yAxis, encoding, attr) {
   {
       createScatterplot(chart, xAxis, yAxis, encoding, attr);
   }
+}
+
+function refreshRandomScatter(){
+  svg.selectAll("circle").classed('selected',false);
+  svg.selectAll('.dot')
+     .transition()
+     .delay(function(d,i) { return 200; })
+     .duration(1000)
+     .ease("linear")
+     .attr("transform", function(d,i){
+       d.x = Math.floor((Math.random() * width ));
+       d.y = Math.floor((Math.random() * height));
+       return "translate("+d.x+","+d.y+")"
+     });
+
 }
