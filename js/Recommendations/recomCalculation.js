@@ -93,7 +93,7 @@ function scatterGetMaxMinValueOfAttr(attr, listSelectedItems){
 function scatterFormingSelectedItems(disScore, listSelectedItems){
   var temp=[];
 //  console.log(disScore);
-  var threshold = 0.95;
+  var threshold = 0.9;
   for(var i in disScore)
   {
     if(i == "Type")

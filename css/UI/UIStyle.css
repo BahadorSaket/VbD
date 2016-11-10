@@ -205,7 +205,7 @@ i[class*=fa-mouse-pointer]::before{
 
 /*CSS for Recommendations*/
 
-.scatterAxis{
+.recom{
    border:1px solid black;
    border-color: white;
    padding:2px;
